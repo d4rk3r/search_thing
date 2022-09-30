@@ -1,0 +1,60 @@
+from ast import Continue
+import webbrowser  
+
+
+#states = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii', 'Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
+
+
+def num_city_getter():
+    num_city_getter.num_cities = 0
+    x = 0
+    while x == 0:
+        try:
+            num_city_getter.num_cities = int(input("How many places will you stop on your trip? "))
+            x = 1
+            return num_city_getter.num_cities
+        except ValueError:
+            print("Please enter a number!")
+            Continue
+
+def location_name_getter():
+    location_name_getter.cities = []
+    location_name_getter.states = []
+    y = 0
+    temp_city = ""
+    temp_state = ""
+    while y < num_city_getter.num_cities:
+        temp_city = input("What\'s the city? ")
+        location_name_getter.cities.append(temp_city)
+        temp_state = input("what\'s the state? ").capitalize()
+        location_name_getter.states.append(temp_state)
+        y += 1
+    return location_name_getter.cities, location_name_getter.states
+
+def discover_builder(cities_list, states_list):
+    d_cities = []
+    d_states = []
+    y = 0
+    discover_builder.discover_strings = []
+    for i in cities_list:
+        k = str(i).replace(' ','-')
+        d_cities.append(k)
+    for i in states_list:
+        l = str(i).replace(' ','-')
+        d_states.append(l)
+    while y < len(d_cities):
+        for x in range(0,len(d_cities)):
+            discover_builder.discover_strings.append('https://www.hipcamp.com/en-US/d/united-states/' + str(d_states[x]).lower() + "/" + str(d_cities[x]).lower() + "/camping/all")
+            y += 1
+    return discover_builder.discover_strings
+
+def browser_bot(disc_strings):
+    for x in disc_strings:
+        webbrowser.open(x, new=0, autoraise=True)
+def main():
+    num_city_getter()
+    location_name_getter()
+    discover_builder(location_name_getter.cities, location_name_getter.states)
+    browser_bot(discover_builder.discover_strings)
+    #print(discover_builder.discover_strings)
+main()
